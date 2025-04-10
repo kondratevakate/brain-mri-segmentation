@@ -8,7 +8,7 @@ from itertools import combinations
 import surface_distance as surfdist
 from tqdm import tqdm
 sys.path.append('/mnt/mydisk/brain_mri_segmentation')
-from config.paths import (
+from brain_mri_segmentation.src.config.paths import (
     FREESURFER_DIR,
     FREESURFER_APARC_FILE,
     RESULTS_DIR,

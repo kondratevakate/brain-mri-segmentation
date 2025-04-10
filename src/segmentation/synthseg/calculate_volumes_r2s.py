@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import sys
 sys.path.append('/mnt/mydisk/brain_mri_segmentation')
-from config.paths import (
+from brain_mri_segmentation.src.config.paths import (
     FREESURFER_DIR,
     FREESURFER_APARC_FILE,
     RESULTS_DIR,
@@ -29,13 +29,24 @@ def calculate_r2s(volumes, time_points):
     r2s = {}
     for region, values in volumes.items():
         if len(values) >= 2:
-            # Calculate R2s using linear regression
-            slope, _, r_value, p_value, _ = stats.linregress(time_points, values)
-            r2s[region] = {
-                'slope': slope,
-                'r_squared': r_value**2,
-                'p_value': p_value
-            }
+            # Check if time points are unique
+            if len(set(time_points)) > 1:
+                # Calculate R2s using linear regression
+                slope, _, r_value, p_value, _ = stats.linregress(time_points, values)
+                r2s[region] = {
+                    'slope': slope,
+                    'r_squared': r_value**2,
+                    'p_value': p_value
+                }
+            else:
+                print(f"Warning: Cannot calculate R2s for {region} - all time points are identical")
+                # If all time points are identical, there is no linear relationship
+                # R² = 0 because there is no variance explained by the model
+                r2s[region] = {
+                    'slope': 0,
+                    'r_squared': 0.0,  # No variance explained by the model
+                    'p_value': 1.0     # Cannot reject null hypothesis
+                }
     return r2s
 
 def main():
@@ -58,8 +69,8 @@ def main():
     for dkt_file in dkt_files:
         # Extract subject and session information
         path_parts = dkt_file.split('/')
-        subject = path_parts[-3]  # Assuming path is .../subject/session/mri/file
-        session = path_parts[-2]
+        session = path_parts[-3]  # session is third from end
+        subject = path_parts[-4]  # subject is fourth from end
         
         # Load the image
         img = load(dkt_file)
@@ -76,8 +87,20 @@ def main():
                 volumes[region_name].append(volume)
         
         # Add time point and subject
-        time_points.append(float(session.split('-')[1]))  # Assuming session format is ses-XXX
-        subjects.append(subject)
+        try:
+            time_point = float(session.split('-')[1])  # Assuming session format is ses-XXX
+            time_points.append(time_point)
+            subjects.append(subject)
+            print(f"Processing {subject} at time point {time_point}")
+        except (IndexError, ValueError) as e:
+            print(f"Warning: Could not parse time point from session {session} for subject {subject}")
+            continue
+    
+    # Print time points information
+    print("\nTime points summary:")
+    print(f"Number of time points: {len(time_points)}")
+    print(f"Unique time points: {sorted(set(time_points))}")
+    print(f"Time points per subject: {len(set(subjects))}")
     
     # Calculate R2s
     r2s = calculate_r2s(volumes, time_points)

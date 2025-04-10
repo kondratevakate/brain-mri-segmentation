@@ -5,7 +5,7 @@ export FREESURFER_HOME=/usr/local/freesurfer/8.0.0
 source $FREESURFER_HOME/SetUpFreeSurfer.sh
 
 # Base directories
-BASE_DIR="/mnt/mydisk/images/images"
+BASE_DIR="/mnt/mydisk/images/images/"
 ORIG_DIR="$BASE_DIR/"
 
 echo "Starting conversion from $ORIG_DIR"
