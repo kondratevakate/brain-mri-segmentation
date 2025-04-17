@@ -10,7 +10,7 @@ BASE_DIR = Path('/mnt/mydisk')
 # Registration paths
 PROCESSED_FILES_DIR = BASE_DIR / 'simon_data'
 REGISTERED_FILES_DIR = BASE_DIR / 'simon_registered_mni_nn'
-ATLAS_DIR = BASE_DIR / 'atlas/mni_icbm152_nlin_asym_09c/mni_icbm152_t1_tal_nlin_asym_09c.nii'
+ATLAS_DIR = BASE_DIR / 'mni_icbm152_t1_tal_nlin_asym_09c.nii'
 # ATLAS_DIR = '/mnt/mydisk/simon_data/ses-001/orig.mgz'
 
 
