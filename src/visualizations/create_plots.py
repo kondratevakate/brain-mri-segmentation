@@ -70,7 +70,7 @@ for csv_file in data_folder.glob('*.csv'):
     fig.text(0.5, -0.05, "Percentage difference from sector-specific mean",
              ha="center", fontsize=12)
 
-    plt.savefig(f"{csv_file.stem}_percentage_vol_diff.png", bbox_inches='tight', transparent=False, dpi=DPI)
+    plt.savefig(f"{csv_file.stem}_percentage_vol_diff.pdf", bbox_inches='tight', transparent=False, dpi=DPI)
 
     # second plot
     df_left_melted = pd.melt(df_left, id_vars=["label_name"],
@@ -126,4 +126,4 @@ for csv_file in data_folder.glob('*.csv'):
     plt.suptitle("Dice vs Surface Dice Metrics by Hemisphere", y=1.02)
     sns.despine()
     plt.tight_layout()
-    plt.savefig(f"{csv_file.stem}_dice_surface_dice.png", bbox_inches='tight', transparent=False, dpi=DPI)
+    plt.savefig(f"{csv_file.stem}_dice_surface_dice.pdf", bbox_inches='tight', transparent=False, dpi=DPI)
