@@ -62,3 +62,6 @@ figures/
 *.jpg
 *.pdf 
 *.ipynb
+
+# Specific files
+src/modelling/modelling.ipynb

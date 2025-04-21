@@ -11,7 +11,7 @@ import glob
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from src.config.labels import LABELS, PROCESS_LABELS
-from src.config.paths import (
+from config.paths_srpbs_fasts import (
     ATLAS_DIR,
     PROCESSED_FILES_DIR,
     REGISTERED_FILES_DIR,

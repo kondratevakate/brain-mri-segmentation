@@ -1,0 +1,74 @@
+Session,Acquisition_date,institution_name,manufacturer,man_model_name,Age,Handedness
+1,9/20/01,Montreal Neuro,Philips,T5,29.69,ambidextrous
+2,6/17/02,Montreal Neuro,Philips,T5,30.43,ambidextrous
+3,3/18/04,Montreal Neuro,Philips,T5,32.18,ambidextrous
+4,7/21/06,Hospital Sud Rennes,Siemens,Symphony,34.52,ambidextrous
+5,9/17/09,IRM Quebec - Mailloux,Philips,Achieva,37.91,ambidextrous
+6,12/11/09,IRM Quebec - Mailloux,Philips,Achieva,37.91,ambidextrous
+7,3/19/10,IRM Quebec - Mailloux,Philips,Achieva,38.18,ambidextrous
+8,9/10/10,IRM Quebec - Mailloux,Philips,Achieva,38.81,ambidextrous
+9,11/3/10,IRM Quebec - Mailloux,Philips,Achieva,38.81,ambidextrous
+10,8/20/12,IRM Quebec - Mailloux,Philips,Achieva,40.6,ambidextrous
+11,2/18/14,Mc Gill University,Siemens,TrioTim,42.35,ambidextrous
+12,2/25/14,IRM Quebec - Mailloux,Philips,Achieva,42.35,ambidextrous
+13,3/14/14,IRM Quebec - Mailloux,Philips,Achieva,42.35,ambidextrous
+14,5/20/14,Mc Gill University,Siemens,TrioTim,42.35,ambidextrous
+15,5/20/14,Hospital Douglas,Siemens,TrioTim,42.35,ambidextrous
+16,5/21/14,IUGM,Siemens,TrioTim,42.35,ambidextrous
+17,6/11/14,IRM Quebec - Mailloux,Philips,Achieva,42.35,ambidextrous
+18,7/3/14,CHUM Campus Notre-Dame,Philips,Achieva,42.7,ambidextrous
+19,9/19/14,IRM Quebec - Mailloux,Philips,Achieva,42.7,ambidextrous
+20,9/24/14,IRM Quebec - Mailloux,Philips,Achieva,42.7,ambidextrous
+21,9/24/14,IRM Quebec - Mailloux,Philips,Achieva,42.7,ambidextrous
+22,10/23/14,Chus Fleurimont ,Philips,Ingenia,42.7,ambidextrous
+23,3/10/15,IUGM,Siemens,TrioTim,43.27,ambidextrous
+24,3/10/15,McConnell Brain Imaging Center,Siemens,SonataVision,43.27,ambidextrous
+25,4/10/15,IRM Quebec - Mailloux,Philips,Achieva,43.27,ambidextrous
+26,4/22/15,Chus Fleurimont ,Philips,Ingenia,43.27,ambidextrous
+27,6/1/15,Mc Connell Brain Imaging Centre,Siemens,TrioTim,43.27,ambidextrous
+28,6/1/15,Concordia University Perform Ctr,GE,DISCOVERY MR750,43.27,ambidextrous
+29,10/20/15,GE Manufacture,GE,DISCOVERY MR750,43.83,ambidextrous
+30,11/3/15,Philips Manufacture,Philips,Ingenia CX,43.83,ambidextrous
+31,11/11/15,Hospital Douglas,Siemens,TrioTim,43.83,ambidextrous
+32,11/16/15,Siemens Manufacture,Siemens,Skyra,43.83,ambidextrous
+33,11/17/15,Anlagenzentrum,Siemens,Prisma,43.83,ambidextrous
+34,11/17/15,Anlagenzentrum,Siemens,Prisma,43.83,ambidextrous
+35,10/3/16,UBC,Philips,Intera,44.81,ambidextrous
+36,10/25/16,IUGM,Siemens,TrioTim,44.81,ambidextrous
+37,11/3/16,Chus Fleurimont ,Philips,Ingenia,44.81,ambidextrous
+38,11/16/16,IRM Quebec - Mailloux,Philips,Achieva,44.81,ambidextrous
+39,11/22/16,Mc Connell Brain Imaging Centre,Siemens,TrioTim,44.81,ambidextrous
+40,11/22/16,Hospital Douglas,Siemens,TrioTim,44.81,ambidextrous
+41,11/22/16,CHUM Campus Notre-Dame,Philips,Achieva,44.81,ambidextrous
+42,11/28/16,Foothills Hospital,GE,DISCOVERY MR750,44.81,ambidextrous
+43,11/29/16,Peter S. Allen MR Research Centre,Siemens,Prisma,44.81,ambidextrous
+44,1/13/17,Mc Connell Brain Imaging Centre,Siemens,TrioTim,45.17,ambidextrous
+45,1/19/17,IUGM,Siemens,Prisma_fit,45.17,ambidextrous
+46,1/19/17,IUGM,Siemens,Prisma_fit,45.17,ambidextrous
+47,2/22/17,Sunnybrook Research Institute,Siemens,Prisma,45.17,ambidextrous
+48,3/14/17,Cuba,Siemens,Allegra,45.17,ambidextrous
+49,3/16/17,Cuba,Siemens,Allegra,45.17,ambidextrous
+50,4/3/17,Robarts Research Institute,Siemens,Prisma_fit,45.17,ambidextrous
+51,6/6/17,Mc Connell Brain Imaging Centre,Siemens,Prisma_fit,45.17,ambidextrous
+52,6/22/17,Royal University Hospital,Siemens,Skyra,45.44,ambidextrous
+53,6/23/17,WCMI Uptown,GE,SIGNA Pioneer,45.44,ambidextrous
+54,9/1/17,Concordia University Perform Ctr,GE,DISCOVERY MR750,45.44,ambidextrous
+55,12/20/17,IRM Quebec - Mailloux,Philips,Achieva,45.94,ambidextrous
+56,3/13/18,CHUM,Philips,Ingenia,45.94,ambidextrous
+57,6/4/18,The Hospital for Sick Children,Siemens,Prisma_fit,46.41,ambidextrous
+58,6/4/18,York MRI Facility,Siemens,Prisma_fit,46.41,ambidextrous
+59,6/5/18,St. Michael`s Hospital,Siemens,Skyra,46.41,ambidextrous
+60,6/5/18,CAMH,GE,DISCOVERY MR750,46.41,ambidextrous
+61,6/11/18,Hospital Douglas,Siemens,TrioTim,46.41,ambidextrous
+62,6/11/18,Mc Connell Brain Imaging Centre,Siemens,Prisma_fit,46.41,ambidextrous
+63,6/11/18,IUGM,Siemens,Prisma_fit,46.41,ambidextrous
+64,6/13/18,The Ottawa Hospital Civic,Siemens,TrioTim,46.41,ambidextrous
+65,6/24/18,Queens University,Siemens,TrioTim,46.41,ambidextrous
+66,6/27/18,St J oseph Hamilton,GE,DISCOVERY MR750,46.41,ambidextrous
+67,6/29/18,Robarts Research Institute,Siemens,Prisma_fit,46.41,ambidextrous
+68,7/3/18,Royal University Hospital,Siemens,Skyra,46.41,ambidextrous
+69,7/4/18,Peter S. Allen MR Research Centre,Siemens,Prisma,46.41,ambidextrous
+70,7/5/18,Foothills Hospital,GE,DISCOVERY MR750,46.41,ambidextrous
+71,7/9/18,UBC MRI Research Centre,Philips,Intera,46.41,ambidextrous
+72,7/12/18,WCMI Uptown,GE,SIGNA Pioneer,46.41,ambidextrous
+73,9/18/18,IRM Quebec - Mailloux ,Philips,Achieva dStream,46.41,ambidextrous

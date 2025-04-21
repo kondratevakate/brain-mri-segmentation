@@ -7,7 +7,7 @@ import sys
 # Добавляем путь к корню проекта в PYTHONPATH
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from config.paths_srpbs_fasts import (
+from src.config.paths_simon_fasts import (
     BASE_DIR,
     PROCESSED_FILES_DIR,
     REGISTERED_FILES_DIR,
@@ -85,9 +85,9 @@ def process_all_sessions(atlas_path, input_dir, output_dir):
         session_output_dir = output_dir / session_name 
         session_output_dir.mkdir(parents=True, exist_ok=True)
         
-        # Paths for current session - теперь с /mri/
-        orig_path = Path(session) / 'mri' / FREESURFER_FILES['ORIG']
-        aseg_path = Path(session) / 'mri' / FREESURFER_FILES['APARC']
+        # Paths for current session
+        orig_path = Path(session) / FREESURFER_FILES['ORIG']
+        aseg_path = Path(session) / FREESURFER_FILES['APARC']
         
         # Register to atlas
         try:
