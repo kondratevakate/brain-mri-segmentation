@@ -26,25 +26,13 @@ df_right = df[df['label_name'].str.contains(' R', case=True)]
 df_left.loc[:, 'label_name'] = df_left['label_name'].str.replace(' L', '', case=True)
 df_right.loc[:, 'label_name'] = df_right['label_name'].str.replace(' R', '', case=True)
 
-# df_left_melted = pd.melt(df_left, id_vars=["label_name"],
-#                          value_vars=["percentage_vol_diff"],
-#                          var_name="dataset", value_name="percentage_vol_diff")
-#
-# df_right_melted = pd.melt(df_right, id_vars=["label_name"],
-#                           value_vars=["percentage_vol_diff"],
-#                           var_name="dataset", value_name="percentage_vol_diff")
-
-df_left_melted = df_left
-df_right_melted = df_right
-
-
 fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=FIGSIZE, sharex=True)
 
 flierprops = dict(marker="o", markerfacecolor="white", markersize=6, markeredgecolor="k")
 
 # left structures
 sns.boxplot(
-    data=df_left_melted,
+    data=df_left,
     x="percentage_vol_diff",
     y="label_name",
     hue="dataset",
@@ -62,7 +50,7 @@ ax1.set_ylabel("")
 
 # right structures
 sns.boxplot(
-    data=df_right_melted,
+    data=df_right,
     x="percentage_vol_diff",
     y="label_name",
     hue="dataset",
