@@ -7,14 +7,43 @@ import sys
 from itertools import combinations
 import surface_distance as surfdist
 from tqdm import tqdm
-sys.path.append('/mnt/mydisk/brain_mri_segmentation')
-from brain_mri_segmentation.src.config.paths import (
-    FREESURFER_DIR,
-    FREESURFER_APARC_FILE,
-    RESULTS_DIR,
-    VOLUME_ANALYSIS_CSV,
-    VOLUME_CHANGES_PLOT
-)
+import argparse
+from pathlib import Path
+from src.config.paths_srpbs import FREESURFER_APARC_FILE
+
+FREESURFER_DIR = os.environ.get("FREESURFER_DIR", "/mnt/freesurfer_data/fs_longitudinal")
+RESULTS_DIR = os.environ.get("RESULTS_DIR", "./data")
+RESULTS_PATH = Path(RESULTS_DIR) / "session_metrics.csv"
+VOLUME_ANALYSIS_CSV = "session_metrics.csv"
+VOLUME_CHANGES_PLOT = "volume_changes.png"
+
+
+
+def is_long_path(path: str) -> bool:
+    # parent of mri/ is the session/subject folder, e.g. ses-001.long.base...
+    parts = Path(path).parts
+    if len(parts) < 3:
+        return False
+    run_dir = parts[-3]
+    return ".long." in run_dir
+
+import re
+
+def parse_subject_session(run_dir: str):
+    # run_dir examples:
+    #  - sub-01_ses-siteATV.long.sub01_base_all_sites
+    #  - ses-017.long.simonBase_all_2025
+    if run_dir.startswith("sub-"):
+        subject = run_dir.split("_")[0]           # sub-01
+        session = run_dir
+    elif run_dir.startswith("ses-"):
+        subject = "simon"                        # group all SIMON sessions under one subject
+        session = run_dir
+    else:
+        subject = run_dir.split(".long.")[0]
+        session = run_dir
+    return subject, session
+
 
 def compute_surface_distances(mask_gt, mask_pred, spacing):
     """Compute surface distances between two masks."""
@@ -126,77 +155,85 @@ def process_session_pair(sessions_data, ses1, ses2):
     
     return results
 
-def process_subject(subject, sessions):
-    """Process a single subject."""
-    results = []
+def process_subject(subject, sessions, writer, chunk_size=5):
+    """Process a single subject, flushing results in chunks."""
     session_list = sorted(sessions.keys())
-    
-    # Process each pair of sessions
-    for ses1, ses2 in combinations(session_list, 2):
+    session_pairs = list(combinations(session_list, 2))
+    print(f"Processing {subject}: {len(session_list)} sessions, {len(session_pairs)} pairs")
+
+    buffer = []
+    for idx, (ses1, ses2) in enumerate(session_pairs, 1):
         session_results = process_session_pair(sessions, ses1, ses2)
         for result in session_results:
             result['subject'] = subject
-        results.extend(session_results)
-    
-    return results
+        buffer.extend(session_results)
+
+        if len(buffer) >= chunk_size:
+            writer(buffer)
+            print(f"  {subject}: wrote {len(buffer)} rows at pair {idx}/{len(session_pairs)}")
+            buffer.clear()
+
+    if buffer:
+        writer(buffer)
+        print(f"  {subject}: wrote final {len(buffer)} rows")
 
 def calculate_session_metrics():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--long-only", action="store_true",
+                        help="process only sessions whose directory name contains '.long.'")
+    parser.add_argument("--subjects", nargs="+", help="filter to specific subjects")
+    parser.add_argument("--out", help="output CSV path (default: RESULTS_DIR/session_metrics.csv)")
+    parser.add_argument("--chunk-size", type=int, default=5,
+                        help="write out every N rows to make progress visible")
+    args = parser.parse_args()
+
+    results_path = Path(args.out) if args.out else Path(RESULTS_PATH)
+
     print("Starting session metrics calculation...")
-    
-    # Create results directory if it doesn't exist
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    
-    # Find all aparc.DKTatlas+aseg.mgz files
+    results_path.parent.mkdir(parents=True, exist_ok=True)
     print("Searching for FreeSurfer files...")
     dkt_files = []
     for root, dirs, files in os.walk(FREESURFER_DIR):
         for file in files:
             if file == FREESURFER_APARC_FILE:
-                dkt_files.append(os.path.join(root, file))
-    
-    print(f"Found {len(dkt_files)} files")
-    
-    # Group files by subject
-    print("Grouping files by subject...")
+                full = os.path.join(root, file)
+                if args.long_only and not is_long_path(full):
+                    continue
+                dkt_files.append(full)
+
     subject_files = {}
     for dkt_file in dkt_files:
-        path_parts = dkt_file.split('/')
-        subject = path_parts[-4]
-        session = path_parts[-3]
-        
-        if subject not in subject_files:
-            subject_files[subject] = {}
-        subject_files[subject][session] = dkt_file
-    
+        run_dir = Path(dkt_file).parent.parent.name
+        subject, session = parse_subject_session(run_dir)
+        if args.subjects and subject not in args.subjects:
+            continue
+        subject_files.setdefault(subject, {})[session] = dkt_file
+
+    print(f"Found {len(dkt_files)} files" + (" (long-only)" if args.long_only else ""))
     print(f"Found {len(subject_files)} subjects")
+
     
     # Process subjects sequentially
     print("Processing subjects...")
-    all_results = []
+    header_written = results_path.exists()
+
+    def writer(rows):
+        nonlocal header_written
+        if not rows:
+            return
+        df = pd.DataFrame(rows)
+        df.to_csv(results_path, mode="a", header=not header_written, index=False)
+        header_written = True
+
     for subject, sessions in tqdm(subject_files.items(), desc="Processing subjects"):
-        results = process_subject(subject, sessions)
-        all_results.extend(results)
+        if not sessions:
+            continue
+        process_subject(subject, sessions, writer, chunk_size=args.chunk_size)
     
-    # Create DataFrame and save results
-    print("Saving results...")
-    results_df = pd.DataFrame(all_results)
-    results_df.to_csv(os.path.join(RESULTS_DIR, 'session_metrics.csv'), index=False)
-    
-    # Print summary statistics
-    print("\nSummary Statistics:")
-    print("\nVolume Differences:")
-    print(results_df.groupby('label')['volume_diff'].describe())
-    
-    print("\nDice Coefficients:")
-    print(results_df.groupby('label')['dice'].describe())
-    
-    print("\nSurface Dice Coefficients:")
-    print(results_df.groupby('label')['surface_dice'].describe())
-    
-    print("\nHD95 (mm):")
-    print(results_df.groupby('label')['hd95'].describe())
-    
-    print(f"\nResults saved to {os.path.join(RESULTS_DIR, 'session_metrics.csv')}")
+    if not results_path.exists():
+        print("No results written.")
+        return
+    print(f"\nResults saved to {results_path}")
 
 if __name__ == "__main__":
     calculate_session_metrics() 

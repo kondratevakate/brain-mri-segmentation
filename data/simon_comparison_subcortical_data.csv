@@ -1,0 +1,6 @@
+Structure,Accumbens,Accumbens,Amygdala,Amygdala,Caudate,Caudate,Hippocampus,Hippocampus,Pallidum,Pallidum,Putamen,Putamen,Thalamus,Thalamus,Ventral Diencephalon,Ventral Diencephalon
+Method,FreeSurfer,FastSurfer,FreeSurfer,FastSurfer,FreeSurfer,FastSurfer,FreeSurfer,FastSurfer,FreeSurfer,FastSurfer,FreeSurfer,FastSurfer,FreeSurfer,FastSurfer,FreeSurfer,FastSurfer
+volume_diff,5.195,-0.558,0.22,-2.232,14.177,1.362,12.457,-0.174,11.994,1.942,19.988,-5.043,2.268,8.297,12.317,1.058
+dice,0.803,0.827,0.858,0.862,0.868,0.874,0.85,0.868,0.85,0.859,0.897,0.902,0.909,0.917,0.858,0.873
+surface_dice,0.965,0.955,0.961,0.944,0.972,0.957,0.964,0.963,0.958,0.927,0.969,0.956,0.947,0.948,0.959,0.95
+hd95,1.228,1.598,1.263,1.497,1.2,1.559,1.234,1.337,1.271,1.643,1.21,1.577,1.327,1.454,1.233,1.428
