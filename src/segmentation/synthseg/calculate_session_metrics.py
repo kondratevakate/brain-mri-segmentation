@@ -10,6 +10,7 @@ from tqdm import tqdm
 import argparse
 from pathlib import Path
 from src.config.paths_srpbs import FREESURFER_APARC_FILE
+from src.config.regions import CORTICAL_AND_SUBCORTICAL
 
 FREESURFER_DIR = os.environ.get("FREESURFER_DIR", "/mnt/freesurfer_data/fs_longitudinal")
 RESULTS_DIR = os.environ.get("RESULTS_DIR", "./data")
@@ -43,6 +44,22 @@ def parse_subject_session(run_dir: str):
         subject = run_dir.split(".long.")[0]
         session = run_dir
     return subject, session
+
+def parse_subject_session_from_path(path: str):
+    """
+    Extract subject/session from full file path.
+    Supports:
+      - nested .../<subject>/<session>/mri/aparc...mgz
+      - flat names like sub-01_ses-siteATTd1_aparcDKT+aseg.mgz
+    """
+    name = Path(path).name
+    flat = re.match(r"^(sub-[^_]+)_(ses-[^_]+)_aparcDKT\+aseg\.mgz$", name)
+    if flat:
+        return flat.group(1), flat.group(2)
+
+    # fallback to directory-based parsing
+    run_dir = Path(path).parent.parent.name if len(Path(path).parts) >= 3 else name
+    return parse_subject_session(run_dir)
 
 
 def compute_surface_distances(mask_gt, mask_pred, spacing):
@@ -115,11 +132,18 @@ def process_session_pair(sessions_data, ses1, ses2):
     data1 = img1.get_fdata()
     data2 = img2.get_fdata()
     spacing = img1.header.get_zooms()
+
+    # Skip pairs with different shapes (mismatched registration or resampling)
+    if data1.shape != data2.shape:
+        print(f"  Skipping pair {ses1} vs {ses2}: shapes differ {data1.shape} vs {data2.shape}")
+        return results
     
     # Get unique labels
     unique_labels = np.unique(np.concatenate([data1, data2]))
     unique_labels = unique_labels[unique_labels != 0]  # Remove background
-    
+    allowed_labels = set(CORTICAL_AND_SUBCORTICAL)
+    unique_labels = [int(l) for l in unique_labels if int(l) in allowed_labels]
+
     # Calculate metrics for each label
     for label in unique_labels:
         mask1 = data1 == label
@@ -185,6 +209,11 @@ def calculate_session_metrics():
     parser.add_argument("--out", help="output CSV path (default: RESULTS_DIR/session_metrics.csv)")
     parser.add_argument("--chunk-size", type=int, default=5,
                         help="write out every N rows to make progress visible")
+    parser.add_argument("--max-depth", type=int, default=None,
+                        help="limit directory walk depth relative to FREESURFER_DIR to speed up search")
+    parser.add_argument("--aparc-names", nargs="+",
+                        default=[FREESURFER_APARC_FILE, "aparcDKT+aseg.mgz"],
+                        help="list of file names to treat as aparc segmentation (default: standard FS plus flat FastSurfer)")
     args = parser.parse_args()
 
     results_path = Path(args.out) if args.out else Path(RESULTS_PATH)
@@ -193,18 +222,22 @@ def calculate_session_metrics():
     results_path.parent.mkdir(parents=True, exist_ok=True)
     print("Searching for FreeSurfer files...")
     dkt_files = []
+    base_depth = len(Path(FREESURFER_DIR).parts)
     for root, dirs, files in os.walk(FREESURFER_DIR):
+        if args.max_depth is not None:
+            depth = len(Path(root).parts) - base_depth
+            if depth >= args.max_depth:
+                dirs[:] = []  # prune deeper traversal
         for file in files:
-            if file == FREESURFER_APARC_FILE:
-                full = os.path.join(root, file)
+            full = os.path.join(root, file)
+            if file in args.aparc_names or file.endswith("_aparcDKT+aseg.mgz"):
                 if args.long_only and not is_long_path(full):
                     continue
                 dkt_files.append(full)
 
     subject_files = {}
     for dkt_file in dkt_files:
-        run_dir = Path(dkt_file).parent.parent.name
-        subject, session = parse_subject_session(run_dir)
+        subject, session = parse_subject_session_from_path(dkt_file)
         if args.subjects and subject not in args.subjects:
             continue
         subject_files.setdefault(subject, {})[session] = dkt_file
