@@ -9,4 +9,6 @@ nilearn>=0.9.0
 dipy>=1.4.0
 scikit-image>=0.18.0
 tqdm>=4.62.0
-joblib>=1.1.0 
+joblib>=1.1.0
+statsmodels>=0.13.0
+pingouin>=0.5.0
