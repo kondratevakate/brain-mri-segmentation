@@ -255,7 +255,7 @@ def plot_cortical_vs_subcortical(summary_df: pd.DataFrame, output_path: Path, da
 
 def main():
     parser = argparse.ArgumentParser(description='Analyze ROI stability by type and volume')
-    parser.add_argument('--simon', type=str, default='data/simon_freesurfer.csv',
+    parser.add_argument('--simon', type=str, default='data/consecutive_fs8_SIMON.csv',
                         help='Path to SIMON CSV')
     parser.add_argument('--srpbs', type=str, default='data/srpbs_freesurfer8_metrics.csv',
                         help='Path to SRPBS CSV (with all ROIs including subcortical)')

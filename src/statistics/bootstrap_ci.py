@@ -122,7 +122,7 @@ def process_dataset(df: pd.DataFrame, dataset_name: str, B: int = 2000) -> pd.Da
 
 def main():
     parser = argparse.ArgumentParser(description='Compute bootstrap 95% CI for segmentation metrics')
-    parser.add_argument('--simon', type=str, default='data/simon_freesurfer.csv',
+    parser.add_argument('--simon', type=str, default='data/consecutive_fs8_SIMON.csv',
                         help='Path to SIMON (within-scanner) CSV')
     parser.add_argument('--srpbs', type=str, default='data/cortical_all_sub_session_metrics.csv',
                         help='Path to SRPBS (cross-scanner) CSV')

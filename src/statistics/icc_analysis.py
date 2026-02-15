@@ -196,7 +196,7 @@ def compute_icc_for_dataset(df: pd.DataFrame, dataset_name: str) -> pd.DataFrame
 
 def main():
     parser = argparse.ArgumentParser(description='Compute ICC for volume reproducibility')
-    parser.add_argument('--simon', type=str, default='data/simon_freesurfer.csv',
+    parser.add_argument('--simon', type=str, default='data/consecutive_fs8_SIMON.csv',
                         help='Path to SIMON (within-scanner) CSV')
     parser.add_argument('--srpbs', type=str, default='data/cortical_all_sub_session_metrics.csv',
                         help='Path to SRPBS (cross-scanner) CSV')

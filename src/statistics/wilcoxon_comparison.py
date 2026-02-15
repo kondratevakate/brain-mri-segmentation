@@ -208,7 +208,7 @@ def compare_datasets(simon_df: pd.DataFrame, srpbs_df: pd.DataFrame) -> pd.DataF
 def main():
     parser = argparse.ArgumentParser(
         description='Wilcoxon rank-sum test: within-scanner vs cross-scanner')
-    parser.add_argument('--simon', type=str, default='data/simon_freesurfer.csv',
+    parser.add_argument('--simon', type=str, default='data/consecutive_fs8_SIMON.csv',
                         help='Path to SIMON (within-scanner) CSV')
     parser.add_argument('--srpbs', type=str, default='data/cortical_all_sub_session_metrics.csv',
                         help='Path to SRPBS (cross-scanner) CSV')

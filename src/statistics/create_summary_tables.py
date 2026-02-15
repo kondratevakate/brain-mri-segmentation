@@ -136,7 +136,7 @@ def create_condensed_summary(simon_df: pd.DataFrame, srpbs_df: pd.DataFrame) -> 
 
 def main():
     parser = argparse.ArgumentParser(description='Create summary tables')
-    parser.add_argument('--simon', type=str, default='data/simon_freesurfer.csv',
+    parser.add_argument('--simon', type=str, default='data/consecutive_fs8_SIMON.csv',
                         help='Path to SIMON CSV')
     parser.add_argument('--srpbs', type=str, default='data/cortical_all_sub_session_metrics.csv',
                         help='Path to SRPBS CSV')
