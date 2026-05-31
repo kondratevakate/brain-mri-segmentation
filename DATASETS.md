@@ -138,6 +138,29 @@ For testing segmentor performance across pathology and atrophy trajectories.
 
 ---
 
+## Raw k-space (for reconstruction / degradation experiments)
+
+These provide **raw k-space**, not just reconstructed NIfTI — required for the
+information-loss / k-space degradation framework (see `docs/FUTURE_WORK.md`):
+degrade k-space → reconstruct with method X → segment → measure recovery.
+All three are *structural* (anatomical T1/T2/FLAIR) k-space, not fMRI BOLD.
+
+| Year | Dataset | N subj | Field | Contrast | Access | Notes |
+|---|---|---|---|---|---|---|
+| 2017 | [**Calgary-Campinas k-space**](https://www.ccdataset.com/download) | 526 | 1.5T+3T | structural | Open (custom) | Raw k-space HDF5 + paired NIfTI; 3 vendors; not defaced; 90 GB |
+| 2023 | [**M4Raw**](https://zenodo.org/records/7523691) | 183 | 0.3T | T1/T2/FLAIR | Open CC-BY-4.0 | Multi-channel k-space; explicitly NOT defaced; partial head coverage; doi:10.1038/s41597-023-02181-4 |
+| 2019 | [**fastMRI Brain**](https://fastmri.med.nyu.edu/) | 6970 | 1.5T+3T | structural | Application (DUA) | Raw k-space HDF5; deidentified, not defaced; DUA from NYU; doi:10.1148/ryai.2020190007 |
+
+**Privacy note:** none of these are defaced, and raw k-space reconstructs the full
+head — facial-reconstruction / re-identification risk applies. Deface after
+reconstruction before any sharing.
+
+**Recommended for the k-space experiment: Calgary-Campinas** — has *paired
+NIfTI + raw k-space* from 3 vendors, so reconstruction-ensemble and cross-vendor
+degradation can both be tested against a known reference.
+
+---
+
 ## Priority for next benchmarking steps
 
 Based on the current project scope (FreeSurfer vs SynthSeg vs Brainchop reproducibility):
