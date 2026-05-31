@@ -161,3 +161,26 @@ TTA-corrected volumes = "TTA mean (mL)" column above.
 | SynthSeg vs FastSurfer (amygdala) | −14% systematic offset |
 | FastSurfer surface holes (2018) | 45 (clean) |
 | Cortical thickness (2018) | lh 2.50 / rh 2.52 mm |
+
+### Table 8 — Rotation floor: SynthSeg vs FastSurfer (same ±3° pair, 2018)
+
+| Region | SynthSeg floor % | FastSurfer floor % |
+|---|---|---|
+| L Hippocampus | 2.37 | 0.58 |
+| R Hippocampus | 0.87 | 2.01 |
+| L Amygdala | 2.57 | 2.40 |
+| R Amygdala | 0.22 | 2.14 |
+| L Thalamus | 1.17 | 0.89 |
+| R Thalamus | 1.31 | 1.25 |
+| L Caudate | 0.90 | 2.03 |
+| R Caudate | 1.87 | 1.62 |
+| L Putamen | 1.54 | 1.69 |
+| R Putamen | 0.39 | 1.34 |
+| L Pallidum | 1.64 | 1.11 |
+| R Pallidum | 2.18 | 0.70 |
+
+Median: SynthSeg **1.43%** vs FastSurfer **1.48%** — essentially tied.
+Both DL segmenters have the same ~1.5% rotation floor → orientation instability
+is a general property of non-equivariant CNNs, not architecture-specific.
+Combined with cross-method r=-0.068 (uncorrelated errors): same floor magnitude,
+different failure locations.
