@@ -184,3 +184,28 @@ Both DL segmenters have the same ~1.5% rotation floor → orientation instabilit
 is a general property of non-equivariant CNNs, not architecture-specific.
 Combined with cross-method r=-0.068 (uncorrelated errors): same floor magnitude,
 different failure locations.
+
+### Table 9 — Atlas-based reference (FreeSurfer 7.4) vs DL, 2018 GE (mL)
+
+Exp 3 (Reuter): FS7.4 is atlas-based (GCA, Talairach) — the established reference.
+SynthSeg(=FS8) and FastSurfer are DL. FS7.4 is a reference by convention, not
+ground truth; n=1, one scan. 2022/2024 pending (longitudinal recon still running).
+
+| Region | FS7.4 atlas | SynthSeg | FastSurfer | SS vs atlas | FS vs atlas |
+|---|---|---|---|---|---|
+| L Hippocampus | 3.85 | 3.85 | 3.91 | −0.0% | +1.6% |
+| R Hippocampus | 3.74 | 3.77 | 3.95 | +0.8% | +5.5% |
+| L Amygdala | 1.56 | 1.71 | 1.47 | +10.0% | −5.7% |
+| R Amygdala | 1.70 | 1.85 | 1.58 | +9.0% | −7.2% |
+| L Thalamus | 6.28 | 6.72 | 6.78 | +7.1% | +8.1% |
+| R Thalamus | 5.68 | 6.86 | 6.32 | +20.7% | +11.3% |
+| L Caudate | 3.28 | 3.88 | 3.42 | +18.3% | +4.3% |
+| R Caudate | 3.40 | 3.85 | 3.45 | +13.3% | +1.3% |
+| L Putamen | 4.71 | 5.28 | 4.90 | +12.1% | +4.0% |
+| R Putamen | 4.69 | 5.39 | 4.89 | +14.8% | +4.1% |
+| L Pallidum | 1.52 | 1.44 | 1.74 | −5.1% | +14.3% |
+| R Pallidum | 1.66 | 1.64 | 1.69 | −0.7% | +2.1% |
+
+Median |Δ| from atlas: **SynthSeg 9.5%, FastSurfer 4.9%** — FastSurfer is closer
+to the atlas reference. SynthSeg systematically over-estimates subcortical volumes
+(thalamus/caudate/putamen). Confirms FS8/SynthSeg is not a neutral reference.
