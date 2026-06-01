@@ -649,4 +649,29 @@ transfers regardless of the input modality.
 ---
 
 *Pilot data collected on n=1 (self), 3 scanners (GE 3T 2018, Siemens 1.5T 2022,
-Philips 1.5T 2024), SynthSeg robust, FreeSurfer 8.0.0. Scripts in `reprocess_2026/`.*
+Philips 1.5T 2024), SynthSeg robust, FreeSurfer 8.0.0. Scripts in the tutorial repo
+`your-brain-mri-visualization` (`pipeline/` + `scripts/`).*
+
+---
+
+## Status & continuation (thread close, 2026-06-01)
+
+**Measured in the n=1 pilot (see `RESULTS_n1_pilot.md`):**
+- physics interpolation floor 0.05%; model-instability floor ~1.36–1.4% (SynthSeg).
+- 9-angle TTA: median CV 1.24%; orientation response asymmetric (bias, not just noise).
+- SynthSeg vs FastSurfer rotation floor: **tied ~1.5%** (Table 8) — instability is a
+  property of the non-equivariant CNN class, not one architecture.
+- Cross-method rotation-response correlation r ≈ −0.07 (independent failures), but
+  large systematic offsets → combine only Δ%, never absolute volumes.
+- Atlas (FS7.4) vs DL (Table 9, 2018): FastSurfer 4.9% vs SynthSeg 9.5% median |Δ|
+  from atlas; SynthSeg over-estimates subcortical. Confirms FS8/SynthSeg ≠ neutral
+  reference (Reuter's point).
+
+**Active / pending — see `HANDOFF_longitudinal.md`:**
+- FreeSurfer 7.4 longitudinal template (Exp 2) running: 2018 done, 2022 ~90%,
+  2024 + `-base` + `-long` pending. Fills the paper's stated gap (paper showed
+  `-long` in a figure but never quantified the variance reduction; ICC(SIMON)=0.14
+  is its only longitudinal number). Resume recipe + extraction code in the handoff.
+- Script now data-parallel (`pipeline/run_fs_longitudinal.sh`, FS_PARALLEL/FS_THREADS):
+  recon-all is ~single-threaded, so run N subjects at once, not -threads N on one.
+  This matters most for the full SIMON/SRPBS datasets (serial = days).
